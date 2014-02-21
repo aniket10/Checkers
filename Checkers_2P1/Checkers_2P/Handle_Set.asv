@@ -1,0 +1,82 @@
+function Board(Checker)
+
+clf
+hold on
+for ii=1:8
+     for jj=1:8  
+          rectangle('Position', [0+ii 0+jj 1 1],'linewidth',0.5,'edgecolor',[0.8 0.9 0.9]);
+          X=[0+ii 1+ii 1+ii 0+ii];
+          Y=[0+jj 0+jj 1+jj 1+jj];
+          if mod(8*ii+jj,2)==0,                
+              fill(X,Y,'r');  
+          end
+          if mod(8*ii+jj,2)==1,                
+              fill(X,Y,'b');  
+          end
+          
+          Xcir=(0.5+ii)+0.4*cos(0:1/50:2*pi);
+          Ycir=(0.5+jj)+0.4*sin(0:1/50:2*pi);
+          
+          if Checker(ii,jj)==0,                
+              fill(Xcir,Ycir,'k');
+          end
+          if Checker(ii,jj)==1,                
+              fill(Xcir,Ycir,'w');  
+          end
+          if Checker(ii,jj)==2,                
+              fill(Xcir,Ycir,'w');  
+          end
+     end
+end
+
+hold off
+rectangle('Position', [1 1 8 8],'linewidth',2,'edgecolor',[0.0 1.0 0.9]);
+axis([0 10 0 10]);
+title('Checker','fontsize',18,'color','m');
+axis equal
+axis off
+set(gcf,'Resize','off');
+text(-1,3.6+0.5*floor((Lnum-1)/9),sprintf('%d',Lnum),'color',[0 0 0],'fontsize',12);
+%--------------------------------------------------------------------------
+% Handling the handles
+
+fig_handle = axes( ...
+        'Units','normalized',  ...
+        'Visible','off', 'DrawMode','fast', ...
+        'NextPlot','replace');
+    
+play_handle = uicontrol('units','normalized',...
+	'position', [.85 .7 .1  .05],'string','Play', ...
+	'callback','Opti_Move(''Play'')', ...
+	'interruptible','on');
+
+restart_handle = uicontrol('units','normalized',...
+	'position', [.85 .6 .1  .05],'string','Restart', ...
+	'callback','Opti_Move(''Restart'')', ...
+	'interruptible','on');
+
+soln_handle = uicontrol('units','normalized',...
+	'position',[.85 .5 .1  .05],'string','Solution', ...
+	'callback','Opti_Move(''Solution'')', ...
+	'interruptible','on');
+
+help_handle = uicontrol('units','normalized',...
+	'position',[.85 .4 .1  .05],'string','Help', ...
+	'callback','Opti_Move(''Help'')', ...
+	'interruptible','on');
+
+exit_handle = uicontrol('units','normalized',...
+	'position',[.85 .3 .1  .05],'string','Exit', ...
+	'callback','delete(gcf)', ...
+	'interruptible','off');
+
+levelup_handle = uicontrol('units','normalized',...
+	'position', [.07 .6 .12  .05],'string','Level Up', ...
+	'callback','Opti_Move(''Up'')', ...
+	'interruptible','on');
+
+leveldown_handle = uicontrol('units','normalized',...
+	'position', [.07 .4 .12  .05],'string','Level Down', ...
+	'callback','Opti_Move(''Down'')', ...
+	'interruptible','on');
+%--------------------------------------------------------------------------

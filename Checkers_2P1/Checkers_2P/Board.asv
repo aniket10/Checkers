@@ -1,0 +1,75 @@
+function Board(Checker,turn)
+
+clf
+hold on
+for ii=1:8
+     for jj=1:8  
+          rectangle('Position', [0+ii 0+jj 1 1],'linewidth',0.5,'edgecolor',[0.8 0.9 0.9]);
+          X=[0+ii 1+ii 1+ii 0+ii];
+          Y=[0+jj 0+jj 1+jj 1+jj];
+          
+          if mod(mod(ii,2)+mod(jj,2),2)==0,                
+              fill(X,Y,'k');  
+          end
+          
+          if mod(mod(ii,2)+mod(jj,2),2)==1,                
+              fill(X,Y,'w');  
+          end
+          
+          Xcir=(0.5+ii)+0.4*cos(0:1/50:2*pi);
+          Ycir=(0.5+jj)+0.4*sin(0:1/50:2*pi);
+          
+          if Checker(ii,jj)==0,                
+              fill(Xcir,Ycir,'r');
+          end
+          if Checker(ii,jj)==1,                
+              fill(Xcir,Ycir,'b');  
+          end
+          
+          Xcir=(0.5+ii)+0.2*cos(0:1/50:2*pi);
+          Ycir=(0.5+jj)+0.2*sin(0:1/50:2*pi);
+          
+          if Checker(ii,jj)==2,                
+              fill(Xcir,Ycir,'y');  
+          end
+          
+          %Score
+          if Checker(ii,jj)
+     end
+end
+
+if mod(turn,2)==0,
+   text(3.5,0,'UUU turn...','color','g','fontsize',18);
+   Checkers('UUU');
+end
+if mod(turn,2)==1,
+    text(3.5,0,'CPU turn...','color','g','fontsize',18);
+    Checkers('CPU');
+end
+
+
+hold off
+rectangle('Position', [1 1 8 8],'linewidth',2,'edgecolor',[0.0 1.0 0.9]);
+axis([0 10 0 10]);
+title('Checker','fontsize',18,'color','m');
+axis equal
+axis off
+set(gcf,'Resize','off');
+%--------------------------------------------------------------------------
+% Handling the handles
+
+fig_handle = axes( ...
+        'Units','normalized',  ...
+        'Visible','off', 'DrawMode','fast', ...
+        'NextPlot','replace');
+
+help_handle = uicontrol('units','normalized',...
+	'position',[.85 .12 .1  .05],'string','Help', ...
+	'callback','Checkers(''Help'')', ...
+	'interruptible','on');
+
+exit_handle = uicontrol('units','normalized',...
+	'position',[.85 .05 .1  .05],'string','Exit', ...
+	'callback','delete(gcf)', ...
+	'interruptible','off');
+%--------------------------------------------------------------------------
